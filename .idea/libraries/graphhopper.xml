@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="graphhopper">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Desktop/graphhopper-0.5.0/classes/artifacts/graphhopper_jar" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/Desktop/graphhopper-0.5.0/classes/artifacts/graphhopper_jar" recursive="false" />
+  </library>
+</component>

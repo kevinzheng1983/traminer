@@ -13,9 +13,9 @@ public class test1
     public static void main(String[] args)
     {
         GraphHopper g = new GraphHopper();
-        Logger logger = LoggerFactory.getLogger(test1.class);
-        logger.info("Hello World");
+
         System.out.println(System.currentTimeMillis());
         GPXFile pf = new GPXFile();
+        System.out.println("hello");
     }
 }

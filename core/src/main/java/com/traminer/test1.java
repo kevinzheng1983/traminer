@@ -3,6 +3,7 @@ package com.traminer;
 import com.graphhopper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.graphhopper.matching.*;
 
 /**
  * Created by uqkzheng on 28/10/2015.
@@ -15,5 +16,6 @@ public class test1
         Logger logger = LoggerFactory.getLogger(test1.class);
         logger.info("Hello World");
         System.out.println(System.currentTimeMillis());
+        GPXFile pf = new GPXFile();
     }
 }

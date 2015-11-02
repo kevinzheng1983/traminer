@@ -8,7 +8,6 @@
         </element>
         <element id="module-output" name="traminer" />
       </element>
-      <element id="library" level="project" name="graphhopper" />
     </root>
   </artifact>
 </component>

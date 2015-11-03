@@ -11,15 +11,7 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="graphhopper">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../lib" recursive="false" />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="com.graphhopper:graphhopper:0.5.0" level="project" />
+    <orderEntry type="library" name="com.graphhopper:map-matching:0.5.0.0" level="project" />
   </component>
 </module>

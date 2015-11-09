@@ -1,5 +1,7 @@
 package com.traminer.util;
 
+import org.apache.xmlgraphics.util.DateFormatUtil;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,38 +19,27 @@ public class DateUtils {
 
     // define all known date formats
     private static final SimpleDateFormat[] allFormats = new SimpleDateFormat[] {
-            new SimpleDateFormat("MM/dd/yyyy hh:mm:ss.SSS a"),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"), // XSD
-            new SimpleDateFormat("MM/dd/yyyy HH:mm:ssZ"), // Oracle
-            new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy"),
-            new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z"), // rfc822
-            new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"), // XSD
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"),
-            new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS"),
-            new SimpleDateFormat("MM/dd/yyyy HH:mm:ss"), // Oracle
-            new SimpleDateFormat("dd.MM.yyyy HH:mm:ss"),
-            new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z"),
-            new SimpleDateFormat("yyyy.MM.dd GGG hh:mm aaa"),
-            new SimpleDateFormat("yy-MM-dd HH:mm:ss.SSS"),
-            new SimpleDateFormat("M/d/yyyy hh:mm:ss"),
-            new SimpleDateFormat("M/d/yyyy hh:mm a"),
-            new SimpleDateFormat("M/d/yy hh:mm:ss"),
-            new SimpleDateFormat("M/d/yy hh:mm a"),
-            new SimpleDateFormat("M/d/yy HH:mm"),
-            new SimpleDateFormat("M/d/yyyy HH:mm"),
-            new SimpleDateFormat("M-d-yy HH:mm"),
-            new SimpleDateFormat("M-d-yyyy HH:mm"),
-            new SimpleDateFormat("M/d/yy"),
-            new SimpleDateFormat("M/d/yyyy"),
-            new SimpleDateFormat("M-d-yy"),
-            new SimpleDateFormat("M-d-yyyy"),
-            new SimpleDateFormat("MMMM d, yyyyy"),
-            new SimpleDateFormat("MMM d, yyyyy")
+            // start with year
+
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX"),
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
+            new SimpleDateFormat("yyyyMMddHHmmss"),
+            // start with month
+            new SimpleDateFormat("MM/dd/yyyy HH:mm:ssX"),
+            new SimpleDateFormat("MM/dd/yyyy HH:mm:ss"),
+
+            // start with day
+            new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
     };
 
     private DateFormat dateFormat;
 
+    public DateUtils() {}
+
+    public DateUtils(DateFormat df) {
+        this.dateFormat = df;
+    }
     //-----------------------------------------------------------------------
     public Date parseDate(final String date) throws ParseException {
         if (isEmptyString(date))
@@ -56,6 +47,16 @@ public class DateUtils {
 
         // iterate over the array and parse
         Date myDate = null;
+        // test if a date formatter already existed to avoid enumeration of all formats
+        if (this.dateFormat != null) {
+            try {
+                myDate = this.dateFormat.parse(date);
+                return myDate;
+            }
+            catch (Exception e) {
+
+            }
+        }
         if (date.endsWith("Z")) {
             myDate = parseXMLDate(date);
         }
@@ -63,6 +64,7 @@ public class DateUtils {
             for (DateFormat df : allFormats) {
                 try {
                     myDate = df.parse(date);
+                    this.dateFormat = df;
                     return myDate;
                 }
                 catch (Exception e) {
@@ -70,9 +72,7 @@ public class DateUtils {
                     // format if current one fails
                 }
             }
-            if (myDate == null) {
-                myDate = parseXMLDate(date);
-            }
+
             // nothing returned so couldn't parse
             if (myDate == null) throw new ParseException("Error: unable to parse date: " + date, 0);
         }
@@ -104,5 +104,27 @@ public class DateUtils {
     {
         if (str == null) return true;
         return "".equals(str.trim());
+    }
+
+    public static void main (String[] args) {
+        DateUtils dateUtils = new DateUtils();
+        String[] dateStr = {
+                "20151109103546",
+                "2015-11-09T09:12:23",
+                "2015-09-10 08:10:10",
+                "02/03/2015 12:03:40",
+                "3.2.2015 13:03:30"
+        };
+        try {
+            for(String str : dateStr) {
+                Date date = dateUtils.parseDate(str);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                System.out.println(date.toString());
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

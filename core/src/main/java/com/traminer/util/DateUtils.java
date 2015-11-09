@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by uqkzheng on 9/11/2015.
+ * A utility class to help parsing date string in various formats into date.
  */
 public class DateUtils {
     // XML formater: this only for converting date into XML string
@@ -20,7 +20,6 @@ public class DateUtils {
     // define all known date formats
     private static final SimpleDateFormat[] allFormats = new SimpleDateFormat[] {
             // start with year
-
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX"),
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
@@ -28,7 +27,6 @@ public class DateUtils {
             // start with month
             new SimpleDateFormat("MM/dd/yyyy HH:mm:ssX"),
             new SimpleDateFormat("MM/dd/yyyy HH:mm:ss"),
-
             // start with day
             new SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
     };
@@ -41,6 +39,9 @@ public class DateUtils {
         this.dateFormat = df;
     }
     //-----------------------------------------------------------------------
+    public long getTime(final String date) throws ParseException {
+        return parseDate(date).getTime();
+    }
     public Date parseDate(final String date) throws ParseException {
         if (isEmptyString(date))
             throw new ParseException("Error: date is null or empty!", 0);
@@ -110,17 +111,16 @@ public class DateUtils {
         DateUtils dateUtils = new DateUtils();
         String[] dateStr = {
                 "20151109103546",
-                "2015-11-09T09:12:23",
-                "2015-09-10 08:10:10",
-                "02/03/2015 12:03:40",
-                "3.2.2015 13:03:30"
+                "2015-11-09T10:35:46",
+                "2015-11-09 10:35:46",
+                "11/09/2015 10:35:46",
+                "9.11.2015 10:35:46"
         };
         try {
             for(String str : dateStr) {
                 Date date = dateUtils.parseDate(str);
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
                 System.out.println(date.toString());
+                System.out.println(dateUtils.getTime(str));
             }
         }
         catch (Exception e) {

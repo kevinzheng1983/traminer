@@ -5,17 +5,16 @@ Traminer is a Java library for preprocessing, managing and mining spatial trajec
 The architecture of Traminer consists of three layers and a data reader library, which collectively form a full stack of APIs for trajectory data analysis. 
 
 1.	Data reader library
+  More often than not, raw trajectory data collected from business are stored and delivered in a specific data format. In order to make the upstream layers agnostic of the adopted format, this library provides a rich set of data reader classes and methods, which can load trajectory data with various formats and transform them into abstracted trajectory objects. Analogously, a set of readers for digital maps and Point-of-Interest datasets are also provided to load maps and PoI data on disk. 
 
-More often than not, raw trajectory data collected from business are stored and delivered in a specific data format. In order to make the upstream layers agnostic of the adopted format, this library provides a rich set of data reader classes and methods, which can load trajectory data with various formats and transform them into abstracted trajectory objects. Analogously, a set of readers for digital maps and Point-of-Interest datasets are also provided to load maps and PoI data on disk. 
-
-2.	Data preprocessing layer
-Raw trajectories should go through a series of preprocessing steps before they become suitable for indexing, querying and mining. This layer support most basic trajectory preprocessing functions, as is outlined in below. 
-a.	Noise filtering
-b.	Trajectory compression
-c.	Trajectory segmentation (stay point detection)
-d.	Trajectory calibration
-e.	Map matching (with map data)
-f.	Trajectory annotation (with PoI data) 
+2. Data preprocessing layer
+  Raw trajectories should go through a series of preprocessing steps before they become suitable for indexing, querying and mining. This layer support most basic trajectory preprocessing functions, as is outlined in below. 
+  * Noise filtering
+  * Trajectory compression
+  * Trajectory segmentation (stay point detection)
+  * Trajectory calibration
+  * Map matching (with map data)
+  * Trajectory annotation (with PoI data) 
 
 3.	Data management layer
 This layer deals with a (typically large) collection of trajectory data. It provides implementations of most representative trajectory similarity measures (e.g., LCSS, DTW, ERP, EDR) between two trajectories. It supports a variety of spatio-temporal queries on trajectory data. Indexing and query processing strategies can also be selected according to the storage and computation mode adopted by the business (i.e., disk-based single node, memory-based single node, disk-based cluster, memory-based cluster). 

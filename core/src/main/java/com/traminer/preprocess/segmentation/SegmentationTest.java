@@ -2,7 +2,6 @@ package com.traminer.preprocess.segmentation;
 
 import com.traminer.base.Trajectory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,7 +13,7 @@ public class SegmentationTest {
 
     public static void main(String[] args) {
 
-        DailySegmentation dailySegmentation = new DailySegmentation();
+        dailySegmentation dailySegmentation = new dailySegmentation();
         MaxGapSegmentation maxGapSegmentation = new MaxGapSegmentation();
         MaxStaySegmentation maxStaySegmentation = new MaxStaySegmentation();
 

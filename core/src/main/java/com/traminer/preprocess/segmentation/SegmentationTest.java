@@ -13,7 +13,7 @@ public class SegmentationTest {
 
     public static void main(String[] args) {
 
-        dailySegmentation dailySegmentation = new dailySegmentation();
+        DailySegmentation dailySegmentation = new DailySegmentation();
         MaxGapSegmentation maxGapSegmentation = new MaxGapSegmentation();
         MaxStaySegmentation maxStaySegmentation = new MaxStaySegmentation();
 

@@ -9,7 +9,7 @@ import java.util.List;
  * Segment a trajectory if it cross multiple days.
  * @author Kevin Zheng
  */
-public class dailySegmentation implements TrajectorySegmentation {
+public class DailySegmentation implements TrajectorySegmentation {
     @Override
     public List<Trajectory> doSegmentation(Trajectory trajectory) {
         return Arrays.asList(trajectory);

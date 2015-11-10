@@ -7,7 +7,8 @@ import java.util.Date;
 
 /**
  * Converter to shift the GPS points to align with Google map in China.
- * @see <a href="https://en.wikipedia.org/wiki/Restrictions_on_geographic_data_in_China"/>
+ * @see https://en.wikipedia.org/wiki/Restrictions_on_geographic_data_in_China
+ * @author Kevin Zheng
  */
 public class ChinaGPSConverter {
     

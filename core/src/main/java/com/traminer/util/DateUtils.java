@@ -11,6 +11,7 @@ import java.util.Locale;
 
 /**
  * A utility class to help parsing date string in various formats into date.
+ * @author Kevin Zheng
  */
 public class DateUtils {
     // XML formater: this only for converting date into XML string

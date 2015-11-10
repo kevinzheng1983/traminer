@@ -3,7 +3,8 @@ package com.traminer.util;
 import com.graphhopper.util.GPXEntry;
 
 /**
- * Created by uqkzheng on 10/11/2015.
+ * The precision of GPS coordinate is 1e-4. So the difference less than this can be negligible.
+ * @author Kevin Zheng
  */
 public class GPXUtils {
     public static boolean isEqual(GPXEntry a, GPXEntry b) {

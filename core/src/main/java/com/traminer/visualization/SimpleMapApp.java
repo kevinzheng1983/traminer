@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by kevin on 7/11/15.
+ * An example of visualizing a trajectory.
+ * @author Kevin Zheng
+ * @see http://unfoldingmaps.org/
  */
 public class SimpleMapApp extends PApplet {
 

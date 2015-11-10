@@ -6,6 +6,7 @@ import java.io.IOException;
 
 /**
  * This interface should be implemented by all trajectory readers.
+ * @author Kevin Zheng
  */
 public interface TrajectoryReader {
     // read a trajectory from a file

@@ -1,4 +1,4 @@
-package com.traminer.preprocess;
+package com.traminer.preprocess.segmentation;
 
 import com.traminer.base.Trajectory;
 

@@ -1,5 +1,6 @@
 package com.traminer.util;
 
+import com.graphhopper.util.GPXEntry;
 import de.fhpotsdam.unfolding.geo.Location;
 
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Date;
  * @see <a href="https://en.wikipedia.org/wiki/Restrictions_on_geographic_data_in_China"/>
  */
 public class ChinaGPSConverter {
-    ChinaGPSConverter me ;
+    
     double casm_rr = 0;
     double casm_t1 = 0;
     double casm_t2 = 0;
@@ -18,11 +19,14 @@ public class ChinaGPSConverter {
     double casm_x2 = 0;
     double casm_y2 = 0;
     double casm_f = 0;
-    public ChinaGPSConverter()
-    {
-        this.me = this;
 
+    private static ChinaGPSConverter converter = new ChinaGPSConverter();
+
+    private ChinaGPSConverter(){
+       
     }
+
+
 
     protected double yj_sin2(double x)
     {
@@ -78,9 +82,9 @@ public class ChinaGPSConverter {
     {
         double tt;
         tt = 300 + 1 * x + 2 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.sqrt(x * x));
-        tt = tt + (20 * me.yj_sin2(18.849555921538764 * x) + 20 * me.yj_sin2(6.283185307179588 * x)) * 0.6667;
-        tt = tt + (20 * me.yj_sin2(3.141592653589794 * x) + 40 * me.yj_sin2(1.047197551196598 * x)) * 0.6667;
-        tt = tt + (150 * me.yj_sin2(0.2617993877991495 * x) + 300 * me.yj_sin2(0.1047197551196598 * x)) * 0.6667;
+        tt = tt + (20 * this.yj_sin2(18.849555921538764 * x) + 20 * this.yj_sin2(6.283185307179588 * x)) * 0.6667;
+        tt = tt + (20 * this.yj_sin2(3.141592653589794 * x) + 40 * this.yj_sin2(1.047197551196598 * x)) * 0.6667;
+        tt = tt + (150 * this.yj_sin2(0.2617993877991495 * x) + 300 * this.yj_sin2(0.1047197551196598 * x)) * 0.6667;
         return tt;
     }
 
@@ -88,9 +92,9 @@ public class ChinaGPSConverter {
     {
         double tt;
         tt = -100 + 2 * x + 3 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.sqrt(x * x));
-        tt = tt + (20 * me.yj_sin2(18.849555921538764 * x) + 20 * me.yj_sin2(6.283185307179588 * x)) * 0.6667;
-        tt = tt + (20 * me.yj_sin2(3.141592653589794 * y) + 40 * me.yj_sin2(1.047197551196598 * y)) * 0.6667;
-        tt = tt + (160 * me.yj_sin2(0.2617993877991495 * y) + 320 * me.yj_sin2(0.1047197551196598 * y)) * 0.6667;
+        tt = tt + (20 * this.yj_sin2(18.849555921538764 * x) + 20 * this.yj_sin2(6.283185307179588 * x)) * 0.6667;
+        tt = tt + (20 * this.yj_sin2(3.141592653589794 * y) + 40 * this.yj_sin2(1.047197551196598 * y)) * 0.6667;
+        tt = tt + (160 * this.yj_sin2(0.2617993877991495 * y) + 320 * this.yj_sin2(0.1047197551196598 * y)) * 0.6667;
         return tt;
     }
 
@@ -101,7 +105,7 @@ public class ChinaGPSConverter {
         double e;
         a = 6378245;
         e = 0.00669342;
-        n = Math.sqrt(1 - e * me.yj_sin2(x * 0.0174532925199433) * me.yj_sin2(x * 0.0174532925199433));
+        n = Math.sqrt(1 - e * this.yj_sin2(x * 0.0174532925199433) * this.yj_sin2(x * 0.0174532925199433));
         n = (xx * 180) / (a / n * Math.cos(x * 0.0174532925199433) * 3.1415926);
         return n;
     }
@@ -114,7 +118,7 @@ public class ChinaGPSConverter {
         double mm;
         a = 6378245;
         e = 0.00669342;
-        mm = 1 - e * me.yj_sin2(x * 0.0174532925199433) * me.yj_sin2(x * 0.0174532925199433);
+        mm = 1 - e * this.yj_sin2(x * 0.0174532925199433) * this.yj_sin2(x * 0.0174532925199433);
         m = (a * (1 - e)) / (mm * Math.sqrt(mm));
         return (yy * 180) / (m * 3.1415926);
     }
@@ -132,27 +136,27 @@ public class ChinaGPSConverter {
         double t;
         double casm_a = 314159269;
         double casm_c = 453806245;
-        me.casm_rr = casm_a * me.casm_rr + casm_c;
-        t = (int)(me.casm_rr / 2);
-        me.casm_rr = me.casm_rr - t * 2;
-        me.casm_rr = me.casm_rr / 2;
-        return (me.casm_rr);
+        this.casm_rr = casm_a * this.casm_rr + casm_c;
+        t = (int)(this.casm_rr / 2);
+        this.casm_rr = this.casm_rr - t * 2;
+        this.casm_rr = this.casm_rr / 2;
+        return (this.casm_rr);
     }
 
     protected void IniCasm(double w_time, double w_lng, double w_lat)
     {
         double tt;
-        me.casm_t1 = w_time;
-        me.casm_t2 = w_time;
+        this.casm_t1 = w_time;
+        this.casm_t2 = w_time;
         tt = (int)(w_time / 0.357);
-        me.casm_rr = w_time - tt * 0.357;
+        this.casm_rr = w_time - tt * 0.357;
         if (w_time == 0)
-            me.casm_rr = 0.3;
-        me.casm_x1 = w_lng;
-        me.casm_y1 = w_lat;
-        me.casm_x2 = w_lng;
-        me.casm_y2 = w_lat;
-        me.casm_f = 3;
+            this.casm_rr = 0.3;
+        this.casm_x1 = w_lng;
+        this.casm_y1 = w_lat;
+        this.casm_x2 = w_lng;
+        this.casm_y2 = w_lat;
+        this.casm_f = 3;
     }
 
     protected Point wgtochina_lb(int wg_flag,int wg_lng, int wg_lat, int wg_heit, int wg_week, int wg_time)
@@ -193,56 +197,56 @@ public class ChinaGPSConverter {
         }
         if (wg_flag == 0)
         {
-            me.IniCasm(wg_time, wg_lng, wg_lat);
+            this.IniCasm(wg_time, wg_lng, wg_lat);
             point = new Point();
             point.setLatitude(wg_lng);
             point.setLongitude(wg_lat);
             return point;
         }
-        me.casm_t2 = wg_time;
-        t1_t2 = (me.casm_t2 - me.casm_t1) / 1000.0;
+        this.casm_t2 = wg_time;
+        t1_t2 = (this.casm_t2 - this.casm_t1) / 1000.0;
         if (t1_t2 <= 0)
         {
-            me.casm_t1 = me.casm_t2;
-            me.casm_f = me.casm_f + 1;
-            me.casm_x1 = me.casm_x2;
-            me.casm_f = me.casm_f + 1;
-            me.casm_y1 = me.casm_y2;
-            me.casm_f = me.casm_f + 1;
+            this.casm_t1 = this.casm_t2;
+            this.casm_f = this.casm_f + 1;
+            this.casm_x1 = this.casm_x2;
+            this.casm_f = this.casm_f + 1;
+            this.casm_y1 = this.casm_y2;
+            this.casm_f = this.casm_f + 1;
         }
         else
         {
             if (t1_t2 > 120)
             {
-                if (me.casm_f == 3)
+                if (this.casm_f == 3)
                 {
-                    me.casm_f = 0;
-                    me.casm_x2 = wg_lng;
-                    me.casm_y2 = wg_lat;
-                    x1_x2 = me.casm_x2 - me.casm_x1;
-                    y1_y2 = me.casm_y2 - me.casm_y1;
+                    this.casm_f = 0;
+                    this.casm_x2 = wg_lng;
+                    this.casm_y2 = wg_lat;
+                    x1_x2 = this.casm_x2 - this.casm_x1;
+                    y1_y2 = this.casm_y2 - this.casm_y1;
                     casm_v = Math.sqrt(x1_x2 * x1_x2 + y1_y2 * y1_y2) / t1_t2;
                     if (casm_v > 3185)
                     {
                         return (point);
                     }
                 }
-                me.casm_t1 = me.casm_t2;
-                me.casm_f = me.casm_f + 1;
-                me.casm_x1 = me.casm_x2;
-                me.casm_f = me.casm_f + 1;
-                me.casm_y1 = me.casm_y2;
-                me.casm_f = me.casm_f + 1;
+                this.casm_t1 = this.casm_t2;
+                this.casm_f = this.casm_f + 1;
+                this.casm_x1 = this.casm_x2;
+                this.casm_f = this.casm_f + 1;
+                this.casm_y1 = this.casm_y2;
+                this.casm_f = this.casm_f + 1;
             }
         }
-        x_add = me.Transform_yj5(x_l - 105, y_l - 35);
-        y_add = me.Transform_yjy5(x_l - 105, y_l - 35);
+        x_add = this.Transform_yj5(x_l - 105, y_l - 35);
+        y_add = this.Transform_yjy5(x_l - 105, y_l - 35);
         h_add = wg_heit;
-        x_add = x_add + h_add * 0.001 + me.yj_sin2(wg_time * 0.0174532925199433) + me.random_yj();
-        y_add = y_add + h_add * 0.001 + me.yj_sin2(wg_time * 0.0174532925199433) + me.random_yj();
+        x_add = x_add + h_add * 0.001 + this.yj_sin2(wg_time * 0.0174532925199433) + this.random_yj();
+        y_add = y_add + h_add * 0.001 + this.yj_sin2(wg_time * 0.0174532925199433) + this.random_yj();
         point = new Point();
-        point.setX(((x_l + me.Transform_jy5(y_l, x_add)) * 3686400));
-        point.setY(((y_l + me.Transform_jyj5(y_l, y_add)) * 3686400));
+        point.setX(((x_l + this.Transform_jy5(y_l, x_add)) * 3686400));
+        point.setY(((y_l + this.Transform_jyj5(y_l, y_add)) * 3686400));
         return point;
     }
 
@@ -262,9 +266,13 @@ public class ChinaGPSConverter {
         }
     }
 
-    public Location getEncryPoint(Location location)
+    public static Location getEncryPoint(GPXEntry gps) {
+        return getEncryPoint(new Location(gps.getLat(), gps.getLon()));
+    }
+
+    public static Location getEncryPoint(Location location)
     {
-        Point point = new Point();
+
         double x1, tempx;
         double y1, tempy;
         x1 = location.getLon() * 3686400.0;
@@ -273,7 +281,7 @@ public class ChinaGPSConverter {
         double gpsWeekTime = 0;
         double gpsHeight = 0;
 
-        point = wgtochina_lb(1, (int)(x1), (int)(y1), (int)(gpsHeight), (int)(gpsWeek), (int)(gpsWeekTime));
+        Point point = converter.wgtochina_lb(1, (int) (x1), (int) (y1), (int) (gpsHeight), (int) (gpsWeek), (int) (gpsWeekTime));
         tempx = point.getX();
         tempy = point.getY();
         tempx = tempx / 3686400.0;
@@ -298,7 +306,7 @@ public class ChinaGPSConverter {
             int gpsWeek = 0;
             int gpsWeekTime = 0;
             int gpsHeight = 0;
-            point = me.wgtochina_lb(1, (int)(x1), (int)(y1), (int)(gpsHeight), (int)(gpsWeek), (int)(gpsWeekTime));
+            point = this.wgtochina_lb(1, (int) (x1), (int) (y1), (int) (gpsHeight), (int) (gpsWeek), (int) (gpsWeekTime));
             tempx = point.getX();
             tempy = point.getY();
             tempx = tempx / 3686400.0;

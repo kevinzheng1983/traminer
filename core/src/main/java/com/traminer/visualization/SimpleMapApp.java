@@ -1,17 +1,25 @@
 package com.traminer.visualization;
 
+import com.graphhopper.util.GPXEntry;
+import com.traminer.base.Trajectory;
+import com.traminer.reader.SimpleTrajectoryReader;
+import com.traminer.reader.TrajectoryReader;
+import com.traminer.util.ChinaGPSConverter;
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
 import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.Marker;
+import de.fhpotsdam.unfolding.marker.SimpleLinesMarker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import de.fhpotsdam.unfolding.utils.ScreenPosition;
 import processing.core.PApplet;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by kevin on 7/11/15.
@@ -32,25 +40,21 @@ public class SimpleMapApp extends PApplet {
         map.setTweening(true);
         // Add mouse and keyboard interactions
         MapUtils.createDefaultEventDispatcher(this, map);
-
-        beijingMaker = new SimplePointMarker(beijing);
-
+        TrajectoryReader tr = new SimpleTrajectoryReader();
+        Trajectory trajectory = tr.readTrajectory("data/simpletrajectoryfile");
+        List<Location> locations = trajectory.stream()
+                .map(ChinaGPSConverter::getEncryPoint)
+                .collect(Collectors.toList());
+        SimpleLinesMarker simpleLinesMarker = new SimpleLinesMarker(locations);
+        simpleLinesMarker.setColor(color(0,230,0));
+        simpleLinesMarker.setStrokeWeight(3);
+        map.addMarker(simpleLinesMarker);
     }
 
 
     public void draw() {
         map.draw();
 
-        ScreenPosition posBeijing = beijingMaker.getScreenPosition(map);
-        strokeWeight(12);
-        stroke(200, 0, 0, 200);
-        strokeCap(SQUARE);
-        noFill();
-        float s = 44;
-        arc(posBeijing.x, posBeijing.y, s, s, -PI * 0.9f, -PI * 0.1f);
-        arc(posBeijing.x, posBeijing.y, s, s, PI * 0.1f, PI * 0.9f);
-        fill(0);
-        text("BEIJING", posBeijing.x - textWidth("BEIJING") / 2, posBeijing.y + 4);
     }
 
 

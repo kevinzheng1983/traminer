@@ -65,6 +65,7 @@ public class Trajectory extends ArrayList<GPXEntry>
         sb.append('[');
         for (;;) {
             GPXEntry e = it.next();
+
             sb.append("{" + e + "}");
             if (! it.hasNext())
                 return sb.append(']').toString();

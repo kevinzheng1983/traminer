@@ -1,5 +1,5 @@
-# traminer
-Project: Traminer (Trajectory Miner) 
+# Traminer
+
 Traminer is a Java library for preprocessing, managing and mining spatial trajectory data. Its aim is to help researchers, developers, practitioners and other non-expert professionals to manipulate various vehicle and pedestrian trajectories more easily without re-implementing most fundamental methods. 
 
 The architecture of Traminer consists of three layers and a data reader library, which collectively form a full stack of APIs for trajectory data analysis. 

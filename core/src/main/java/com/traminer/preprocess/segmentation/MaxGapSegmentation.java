@@ -24,67 +24,55 @@ public class MaxGapSegmentation implements TrajectorySegmentation {
     // maximum time gap allowed in milliseconds (default value is 10 minutes)
     private long maximumGap = 600 * 1000;
 
-    private double minimumMove = 0.00001;
 
-    public double getMinimumMove() {
-        return minimumMove;
-    }
-
-    public void setMinimumMove(double minimumMove) {
-        this.minimumMove = minimumMove;
-    }
 
     @Override
     public List<Trajectory> doSegmentation(Trajectory trajectory) {
 
-        List<Trajectory> segmentedT = new ArrayList<>();
-
-
         GPXEntry lastPoint;
-        int stoppedIndex = 0;
-        int startIndex = 0;
-        long timeCount = 0;
-        boolean firstStoppedFlag = true;
+        List<Trajectory> segmentedT= new ArrayList<>();
+        Trajectory tempT = new Trajectory();
+
+        tempT.add(trajectory.get(0));
 
         for(int i = 1; i < trajectory.size(); i++){
-
+            //get previous point
             lastPoint = trajectory.get(i - 1);
-            if(pointMatch(lastPoint, trajectory.get(i))){
-                if(firstStoppedFlag){
-                    stoppedIndex = i - 1;
-                    firstStoppedFlag = false;
-                    timeCount = Math.abs(trajectory.get(i).getTime() - lastPoint.hashCode());
+            if(!timeContinues(lastPoint, trajectory.get(i))){
+                //Gap detected, split the trajectory
+                if(tempT.size() > 0){
+                    segmentedT.add(tempT);
                 }else{
-                    timeCount = timeCount + Math.abs(trajectory.get(i).getTime() - lastPoint.hashCode());
+                    System.err.println("Bug found, size cannot be 0");
                 }
-                if(timeCount > this.maximumGap){
-                    if(stoppedIndex - startIndex > 0){
-                        segmentedT.add(new Trajectory(trajectory.subList(startIndex, stoppedIndex)));
-                    }
 
-                    startIndex = i + 1;
-                    stoppedIndex = 0;
-                    firstStoppedFlag = true;
-                    timeCount = 0;
-                }
+                tempT = new Trajectory();
+                tempT.add(trajectory.get(i));
+
+            }else{
+                tempT.add(trajectory.get(i));
             }
         }
-
-        if(trajectory.size()  - startIndex > 1){
-            segmentedT.add(new Trajectory(trajectory.subList(startIndex, trajectory.size() - 1)));
+        //add last segment
+        if(tempT.size() > 0){
+            segmentedT.add(tempT);
         }
-
         return segmentedT;
     }
 
-    private boolean pointMatch(GPXEntry p1, GPXEntry p2){
 
-        if(Math.abs(p1.getLat() - p2.getLat()) < this.minimumMove &&
-                Math.abs(p1.getLon() - p2.getLon()) < this.minimumMove){
-            return true;
+    /**
+     * A function is to detect the time gap
+     * @param p1 first GPS point
+     * @param p2 second GPS point
+     * @return false if the time gap of two points is larger than threshold
+     */
+    private boolean timeContinues(GPXEntry p1, GPXEntry p2){
+        if(Math.abs(p1.getTime() - p2.getTime()) > this.maximumGap){
+            return false;
         }
 
-        return false;
-
+        return true;
     }
+
 }

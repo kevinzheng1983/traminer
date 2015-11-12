@@ -65,7 +65,7 @@ public class MaxStaySegmentation implements TrajectorySegmentation {
                     //reach the maximum allowed stay time, split
                     if(stoppedIndex - startIndex > 0){
                         //split trajectory and remove all of stopped point
-                        segmentedT.add(new Trajectory(trajectory.subList(startIndex - 1, stoppedIndex)));
+                        segmentedT.add(new Trajectory(trajectory.subList(startIndex, stoppedIndex - 1)));
                     }
 
                     //reset

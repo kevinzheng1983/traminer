@@ -33,6 +33,7 @@ public class MaxGapSegmentation implements TrajectorySegmentation {
         List<Trajectory> segmentedT= new ArrayList<>();
         Trajectory tempT = new Trajectory();
 
+        tempT.setId(trajectory.getId());
         tempT.add(trajectory.get(0));
 
         for(int i = 1; i < trajectory.size(); i++){
@@ -47,6 +48,7 @@ public class MaxGapSegmentation implements TrajectorySegmentation {
                 }
 
                 tempT = new Trajectory();
+                tempT.setId(trajectory.getId());
                 tempT.add(trajectory.get(i));
 
             }else{

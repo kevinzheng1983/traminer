@@ -3,6 +3,7 @@ package com.traminer.preprocess.segmentation;
 import com.graphhopper.util.GPXEntry;
 import com.traminer.base.Trajectory;
 import com.traminer.reader.SimpleTrajectoryReader;
+import com.traminer.reader.TrajectoriesReader;
 import com.traminer.reader.TrajectoryReader;
 
 import java.io.BufferedWriter;
@@ -25,10 +26,12 @@ public class SegmentationTest {
         MaxGapSegmentation maxGapSegmentation = new MaxGapSegmentation();
         MaxStaySegmentation maxStaySegmentation = new MaxStaySegmentation();
 
-        TrajectoryReader tr = new SimpleTrajectoryReader();
+        TrajectoriesReader tr = new TrajectoriesReader();
 
-        Trajectory trajectory = tr.readTrajectory("/Users/haozhouwang/MyUQ/expdata/testData/281");
-        List<Trajectory> results = Stream.of(trajectory)
+        List<Trajectory> trajectory = tr.readTrajetcoies("C:\\Users\\Haozhou\\Documents\\MyUQ\\expData");
+
+
+        List<Trajectory> results = Stream.of(trajectory.get(0))
                 .flatMap(t -> maxGapSegmentation.doSegmentation(t).stream())
                 .flatMap(t -> maxStaySegmentation.doSegmentation(t).stream())
                 .filter(t -> t.size() > 5)
@@ -39,7 +42,7 @@ public class SegmentationTest {
             System.out.println("-------------------------");
         }
 */
-        writeToFiles(results, "/Users/haozhouwang/MyUQ/expdata/testData/");
+        writeToFiles(results, "C:\\Users\\Haozhou\\Documents\\MyUQ\\expData");
         //results.forEach(System.out::println);
 
     }
@@ -69,7 +72,13 @@ public class SegmentationTest {
                 dir.mkdir();
             }
             try{
-                outFile = new FileWriter(folderpath + "/" + count);
+                //System.out.println("ID is " + t.getId() );
+                if(t.getId() != null){
+                    outFile = new FileWriter(folderpath + "/" + t.getId() + "_" + +count);
+                }else{
+                    outFile = new FileWriter(folderpath + "/" + count);
+                }
+
                 BufferedWriter bw = new BufferedWriter(outFile);
 
                 for(GPXEntry p : t){

@@ -57,9 +57,9 @@ public class MaxStaySegmentation implements TrajectorySegmentation {
                     //record the first stopped point index
                     stoppedIndex = i;
                     firstStoppedFlag = false;
-                    timeCount = Math.abs(trajectory.get(i).getTime() - lastPoint.hashCode());
+                    timeCount = Math.abs(trajectory.get(i).getTime() - lastPoint.getTime());
                 }else{
-                    timeCount = timeCount + Math.abs(trajectory.get(i).getTime() - lastPoint.hashCode());
+                    timeCount = timeCount + Math.abs(trajectory.get(i).getTime() - lastPoint.getTime());
                 }
                 if(timeCount > this.maximumStayTime){
                     //reach the maximum allowed stay time, split

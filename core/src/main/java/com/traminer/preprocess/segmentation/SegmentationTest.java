@@ -52,8 +52,6 @@ public class SegmentationTest {
 
     public static void writeToFiles(List<Trajectory> r, String outputPath){
 
-
-
         SimpleDateFormat foldFormater = new SimpleDateFormat("yyyy-MM-dd");
         int count = 0;
         FileWriter outFile;

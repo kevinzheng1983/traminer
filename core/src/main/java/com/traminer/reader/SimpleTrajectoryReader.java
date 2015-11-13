@@ -56,7 +56,7 @@ public class SimpleTrajectoryReader implements TrajectoryReader {
 
     public static void main(String[] args) {
         TrajectoryReader tr = new SimpleTrajectoryReader();
-        Trajectory trajectory = tr.readTrajectory("data/simpletrajectoryfile");
+        Trajectory trajectory = tr.readTrajectory("/Users/haozhouwang/MyUQ/expdata/201287_281_2");
         System.out.println(trajectory.toString());
     }
 }

@@ -3,6 +3,7 @@
     <properties maven-id="org.processing:core:2.2.1" />
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/processing/core/2.2.1/core-2.2.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/processing/core/2.2.1/core-2.2.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
